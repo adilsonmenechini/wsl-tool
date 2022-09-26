@@ -1,0 +1,73 @@
+---
+- name: install APT Transport HTTPS
+  apt:
+    name: apt-transport-https
+    state: present
+
+- name: add Kubernetes apt-key for APT repository
+  apt_key:
+    url: https://packages.cloud.google.com/apt/doc/apt-key.gpg
+    state: present
+
+- name: add Kubernetes APT repository
+  apt_repository:
+    repo: deb http://apt.kubernetes.io/ kubernetes-xenial main
+    state: present
+    filename: 'kubernetes'
+
+- name: install kubectl
+  apt:
+    name: kubectl
+    state: latest
+    update_cache: true
+
+- name: clone kubectx/kubens
+  tags:
+    - skip_ansible_lint
+  shell:
+    cmd: |
+        git clone https://github.com/ahmetb/kubectx /opt/kubectx
+        ln -s /opt/kubectx/kubectx /usr/local/bin/kubectx
+        ln -s /opt/kubectx/kubens /usr/local/bin/kubens
+    chdir: ~
+    creates: /opt/kubectx
+    
+- name: Installing Stern
+  get_url:
+    url: https://github.com/wercker/stern/releases/download/1.11.0/stern_linux_amd64
+    dest: /usr/local/bin/stern
+    mode: 0755
+
+- name: Installing kubie
+  get_url:
+    url: https://github.com/sbstp/kubie/releases/download/v0.16.0/kubie-linux-amd64
+    dest: /usr/local/bin/kubie
+    mode: 0755
+
+- name: Install k3d
+  become_user: "{{ ansible_env.USER }}"
+  homebrew:
+    name: k3d
+    path: /home/linuxbrew/.linuxbrew/bin
+    state: present
+
+- name: Installing Helm
+  shell: curl https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3 | bash
+  args: 
+    warn: no
+
+- name: Install kustomize
+  become: true
+  become_user: "{{ ansible_env.USER }}"
+  homebrew:
+    name: kustomize
+    path: /home/linuxbrew/.linuxbrew/bin
+    state: present
+
+- name: Install k9s
+  become: true
+  become_user: "{{ ansible_env.USER }}"
+  homebrew:
+    name: k9s
+    path: /home/linuxbrew/.linuxbrew/bin
+    state: present

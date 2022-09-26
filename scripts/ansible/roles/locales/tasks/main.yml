@@ -1,0 +1,15 @@
+---
+
+- name: Configure locales
+  lineinfile: dest=/var/lib/locales/supported.d/local regexp="{{ item }}" line="{{ item }}" create="yes"
+  notify:
+    - Generate locales
+  with_items: "{{ locales.locale }}"
+
+- name: Set localtime (/etc/localtime)
+  copy: remote_src=yes src=/usr/share/zoneinfo/{{ locales.timezone }} dest=/etc/localtime
+
+- name: Set timezone (/etc/timezone)
+  copy: content="{{ locales.timezone }}\n" dest=/etc/timezone
+  notify:
+    - Update TimeZone data

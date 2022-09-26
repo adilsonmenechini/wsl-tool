@@ -1,0 +1,15 @@
+---
+  - name: Adding config wsl
+    copy: 
+      src: wsl.conf
+      dest: "/etc/wsl.conf" 
+      mode: '0644'
+
+  - name: Adding config wsl user
+    tags:
+      - skip_ansible_lint
+    shell:
+      cmd: |
+        sudo echo "[user]" >> /etc/wsl.conf
+        sudo echo default={{ ansible_env.USER }} >> /etc/wsl.conf
+      chdir: ~

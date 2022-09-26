@@ -1,0 +1,38 @@
+---
+
+  - name: Install git
+    become: true
+    apt: 
+      pkg: git-core
+      state: present
+      update_cache: yes 
+      cache_valid_time: "{{ aptcachetime }}"
+
+  - name: Adding lg alias for git
+    copy: 
+      src: gitconfig
+      dest: "{{ ansible_env.HOME }}/.gitconfig" 
+      mode: '0644'
+      backup: yes
+
+  - name: Install git
+    become: true
+    apt: 
+      pkg: git-core
+      state: present
+      update_cache: yes 
+      cache_valid_time: "{{ aptcachetime }}"
+
+  - name: Adding lg alias for git
+    copy: 
+      src: gitconfig
+      dest: "{{ ansible_env.HOME }}/.gitconfig" 
+      mode: '0644'
+      backup: yes
+
+  - name: Install gitg
+    apt: 
+      pkg: gitg
+      state: latest
+      update_cache: yes
+      cache_valid_time: "{{ aptcachetime }}"

@@ -1,0 +1,20 @@
+---
+- name: check resolv
+  stat:
+    path: /etc/resolv.conf
+  register: register_resolv
+
+- name: "Configure resolv.conf"
+  template:
+    src: "resolv.conf.j2"
+    dest: "/etc/resolv.conf"
+    mode: "0644"
+  become: true
+  when: register_resolv.stat.exists
+
+- name: Ensure resolv.conf is immutable.
+  file:
+    path: /etc/resolv.conf
+    attr: +i
+  become: true
+  when: register_resolv.stat.exists

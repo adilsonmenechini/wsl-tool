@@ -1,0 +1,25 @@
+---
+
+- name: Git checkout tgenv
+  git:
+    repo: 'https://github.com/cunymatthieu/tgenv'
+    dest: ~/.local/lib/tgenv
+    version: master
+  register: result
+
+- name: Install tgenv binary
+  become: true
+  file:
+    src: /home/{{ ansible_env.USER }}/.local/lib/tgenv/bin/{{ item }}
+    dest: /usr/bin/{{ item }}
+    state: link
+  loop:
+    - terragrunt
+    - tgenv
+  when: result is success and not ansible_check_mode
+  register: result
+
+- name: Install terragrunt
+  become: true
+  shell:
+    cmd: "/usr/bin/tgenv install latest && /usr/bin/tgenv use latest"

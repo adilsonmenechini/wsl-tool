@@ -1,0 +1,12 @@
+---
+- name: Install bottle python package
+  pip:
+    name: 
+      - boto3
+      - botocore
+    extra_args: --upgrade
+
+- name: Install awsebcli package
+  pip: 
+    name: awsebcli 
+    state: present

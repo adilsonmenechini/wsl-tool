@@ -1,0 +1,7 @@
+---
+
+locales_enabled: 'no'
+locales:
+  locale: 
+    - "en_US.UTF-8 UTF-8"
+  timezone: "Asia/Beirut"

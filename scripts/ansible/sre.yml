@@ -1,0 +1,79 @@
+---
+
+- name: Ubuntu SRE Playbook
+  hosts: localhost
+  roles:
+    - role: 'cloud/azure/cli'
+      become: true
+      tags:
+        - azure
+        - azure:cli
+        - sre:cli
+      when: azure_enabled | bool
+    - role: 'cloud/aws/cli'
+      tags:
+        - aws
+        - aws:cli
+        - sre:cli
+      when: aws_enabled or awscli_enabled | bool
+    - role: 'cloud/aws/ebcli'
+      tags:
+        - aws
+        - aws:ebcli
+        - sre:cli
+      when: aws_enabled or awsebcli_enabled | bool
+    - role: 'cloud/aws/ecscli'
+      become: true
+      tags:
+        - aws
+        - aws:ecscli
+        - sre:cli
+      when: aws_enabled or awsecscli_enabled | bool
+    - role: 'database/postgresql'
+      become: true
+      tags:
+        - psql
+        - sre:ipsql
+      when: psql_enabled | bool
+    - role: 'database/mongodb'
+      become: true
+      tags:
+        - mongodb
+        - sre:mongodb
+      when: mongodb_enabled | bool
+    - role: 'database/sqlite3'
+      become: true
+      tags:
+        - sqlite3
+        - sre:sqlite3
+      when: sqlite3_enabled | bool
+    - role: docker
+      become: true
+      tags:
+        - docker
+        - sre:infrastructure
+      when: docker_enabled | bool
+    - role: kubernetes
+      become: true
+      tags:
+        - kubernetes
+        - sre
+        - sre:cli
+        - developer
+      when: kubernetes_enabled | bool
+    - role: terraform/tfenv
+      tags:
+        - terraform
+        - tfenv
+        - sre:infrastructure
+      when: tfenv_enabled | bool
+    - role: terraform/tgenv
+      tags:
+        - terragrunt
+        - tgenv
+        - sre:infrastructure
+      when: tgenv_enabled | bool
+    - role: zsh
+      tags:
+        - zsh
+      when: zsh_enabled | bool

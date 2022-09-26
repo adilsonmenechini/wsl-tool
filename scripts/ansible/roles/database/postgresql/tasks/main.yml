@@ -1,0 +1,6 @@
+---
+- name: Install postgresql
+  become: true
+  apt:
+    name: postgresql
+    state: latest

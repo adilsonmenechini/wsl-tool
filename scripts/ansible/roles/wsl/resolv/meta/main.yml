@@ -1,0 +1,24 @@
+galaxy_info:
+  author: "Adilson Menechini"
+  description: "An Ansible role to configure /etc/resolv.conf"
+  company: "Menechini"
+
+  license: "MIT"
+
+  min_ansible_version: "1.2"
+
+  platforms:
+  - name: "Ubuntu"
+    versions:
+    - "all"
+
+  - name: "Debian"
+    versions:
+    - "all"
+
+  galaxy_tags:
+    - "system"
+    - "dns"
+    - "resolv"
+
+dependencies: []

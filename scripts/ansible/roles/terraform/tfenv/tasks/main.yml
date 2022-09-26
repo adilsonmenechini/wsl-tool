@@ -1,0 +1,25 @@
+---
+
+- name: Git checkout tfenv
+  git:
+    repo: 'https://github.com/tfutils/tfenv'
+    dest: /home/{{ ansible_env.USER }}/.local/lib/tfenv
+    version: master
+  register: result
+
+- name: Install tfenv binary
+  become: true
+  file:
+    src: /home/{{ ansible_env.USER }}/.local/lib/tfenv/bin/{{ item }}
+    dest: /usr/bin/{{ item }}
+    state: link
+  loop:
+    - terraform
+    - tfenv
+  when: result is success and not ansible_check_mode
+  register: result
+
+- name: Install Terraform
+  become: true
+  shell:
+    cmd: "/usr/bin/tfenv install && /usr/bin/tfenv use"

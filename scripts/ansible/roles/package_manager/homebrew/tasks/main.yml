@@ -1,0 +1,23 @@
+---
+
+
+- name: Ensuring Homebrew Is Installed
+  stat:
+    path: /home/linuxbrew/.linuxbrew/bin/brew
+  register: homebrew_check
+
+- name: Install homebrew package
+  shell: curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh | bash
+  args: 
+    warn: no
+  when: not homebrew_check.stat.exists
+
+- name: Test homebrew package
+  become: true
+  become_user: root
+  shell: |
+    export BREW_HOME="/home/linuxbrew/.linuxbrew/bin"
+    export PATH="$PATH:$BREW_HOME"
+    echo $PATH
+  args: 
+    warn: no

@@ -1,0 +1,10 @@
+---
+  - name: Install Azure CLI
+    shell: curl -sL https://aka.ms/InstallAzureCLIDeb | bash
+    args:
+      warn: no
+
+  - name: Install Microsoft Azure CLI
+    apt:
+      name: azure-cli
+      state: present

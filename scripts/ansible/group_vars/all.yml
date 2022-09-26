@@ -1,0 +1,36 @@
+---
+common_enabled:  yes
+locales_enabled: yes
+python_enabled:  yes
+
+
+azure_enabled:                yes
+aws_enabled:                  yes
+awscli_enabled:               yes
+awsebcli_enabled:             yes
+awsecscli_enabled:            yes
+docker_enabled:               yes
+psql_enabled:                 yes
+mongodb_enabled:              yes
+go_enabled:                   yes
+sqlite3_enabled:              yes
+golang_enabled:               yes
+kubernetes_enabled:           yes
+snapd_enabled:                yes
+homebrew_enabled:             yes
+tfenv_enabled:                yes
+tgenv_enabled:                yes
+timeshift_enabled:            yes
+wslconf_enabled:              yes
+wslresolv_enabled:            yes
+zsh_enabled:                  yes
+
+
+aptcachetime: 3600
+locale: "UTF-8"
+timezone: "America/Sao_Paulo"
+ssh:
+  start: true
+  service_enabled: true
+  password_auth: false
+  root_login: false

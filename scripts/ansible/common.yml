@@ -1,0 +1,57 @@
+---
+
+- name: Ubuntu Common Playbook
+  hosts: localhost
+  roles:
+    - role: common
+      become: true
+      tags:
+        - common
+      when: common_enabled | bool
+    - role: locales
+      become: true
+      tags:
+        - locale
+        - common
+      when: locales_enabled | bool
+    - role: 'package_manager/homebrew'
+      tags:
+        - homebrew
+        - system
+        - common
+      when: homebrew_enabled | bool
+    - role: 'package_manager/snapd'
+      become: true
+      tags:
+        - snapd
+        - system
+        - common
+      when: snapd_enabled | bool
+    - role: 'wsl/conf'
+      become: true
+      tags:
+        - wsl
+        - system
+        - common
+      when: wslconf_enabled | bool
+    - role: 'wsl/resolv'
+      become: true
+      tags:
+        - wsl
+        - system
+        - common
+      resolv_nameservers:
+          - "127.0.0.1"
+          - "8.8.8.8"
+          - "8.8.4.4"
+      when: wslresolv_enabled | bool
+    - role: program/python
+      tags:
+        - python
+        - sre:programing
+      when: python_enabled | bool
+    - role: program/golang/language
+      tags:
+        - go
+        - sre:programing
+      when: golang_enabled | bool
